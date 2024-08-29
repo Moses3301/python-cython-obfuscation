@@ -1,4 +1,4 @@
-﻿![Dragon Guarding Treasure](images/dragon.webp)
+﻿![Dragon Guarding Treasure](images/dragon.webp | width=400)
 
 # Python Cython Obfuscation
 
