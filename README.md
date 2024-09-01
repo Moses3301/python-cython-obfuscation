@@ -40,5 +40,5 @@ pip install cython
 ### 3.Compile the Python Code
 
 ```bash
-python script_name.py input_directory output_directory [--remove-originals]
+python setup.py input_directory output_directory [--remove-originals]
 ```
