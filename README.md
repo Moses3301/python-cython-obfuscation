@@ -25,7 +25,7 @@ This project provides a template for compiling Python code with Cython to improv
 Clone this repository to your local machine:
 
 ```bash
-git clone https://github.com/yourusername/python-cython-obfuscation.git
+git clone https://github.com/Moses3301/python-cython-obfuscation.git
 cd python-cython-obfuscation
 ```
 
