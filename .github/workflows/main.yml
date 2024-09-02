@@ -34,12 +34,12 @@ jobs:
       - name: List output directory contents
         run: |
           ls -R out/
+          
       - name: Upload binary to GitHub release
-        if: github.ref == 'refs/heads/main'
-        uses: ncipollo/release-action@v1
-        with:
-          artifacts: |
-            out/*.so
-          tag_name: ${{ github.sha }}
-          release_name: Cython Build ${{ github.sha }} for ${{ matrix.os }}-${{ matrix.arch }}
-          token: ${{ secrets.GITHUB_TOKEN }}
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "Creating a new release..."
+          curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
+          -d '{"tag_name": "'"${GITHUB_SHA}"'", "target_commitish": "main", "name": "Cython Build '"${GITHUB_SHA}"' for '"${{ matrix.os }}-$(matrix.arch)"'", "body": "Automated release for Cython build.", "draft": false, "prerelease": false}' \
+          https://api.github.com/repos/${{ github.repository }}/releases
