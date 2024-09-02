@@ -7,19 +7,40 @@ from distutils.extension import Extension
 from Cython.Build import cythonize
 from Cython.Distutils import build_ext
 
+def is_empty(file):
+    with open(file, 'r') as f:
+        content = f.read().strip()
+    return len(content) == 0
+
+
 def compile_project(input_dir, output_dir, remove_originals=False):
-    # Create output directory if it doesn't exist
     os.makedirs(output_dir, exist_ok=True)
 
+    subfolders = os.listdir(input_dir)
+    subfolders = [entry for entry in subfolders if os.path.isdir(os.path.join(input_dir, entry))]
+
+    for subfolder in subfolders:
+        compile_project(
+            os.path.join(input_dir,subfolder),
+            os.path.join(output_dir,subfolder),
+            remove_originals
+        )
+        
     # Get all Python files in the input directory
     py_files = [f for f in os.listdir(input_dir) if f.endswith('.py')]
+    py_files = [f for f in py_files if not is_empty(os.path.join(input_dir, f))]
 
     # Prepare extension modules
     extensions = []
     for py_file in py_files:
+        if is_empty(os.path.join(input_dir, py_file)):
+            continue
         module_name = os.path.splitext(py_file)[0]
         source_path = os.path.join(input_dir, py_file)
         extensions.append(Extension(module_name, [source_path]))
+
+    if len(extensions) == 0:
+        return
 
     # Set up a custom build_ext command to specify output directory
     class custom_build_ext(build_ext):
@@ -38,7 +59,7 @@ def compile_project(input_dir, output_dir, remove_originals=False):
     )
 
     # Clean up temporary directories and files
-    dirs_to_remove = ['build', '__pycache__']
+    dirs_to_remove = [os.path.join(input_dir, 'build'), os.path.join(input_dir, '__pycache__')]
     for dir_name in dirs_to_remove:
         if os.path.exists(dir_name):
             shutil.rmtree(dir_name)
