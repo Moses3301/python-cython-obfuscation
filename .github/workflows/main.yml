@@ -31,17 +31,17 @@ jobs:
       - name: Compile with Cython on Linux
         if: matrix.os == 'ubuntu-22.04'
         run: |
-          mkdir out
-          python3 setup.py ${{ matrix.module }} out/${{ matrix.module }}
+          mkdir output
+          python3 setup.py ${{ matrix.module }} output/${{ matrix.module }}
           
       - name: Compress the folder
         run: |
-          tar -czf ${{ matrix.module }}.tar.gz out/${{ matrix.module }}   
+          tar -czf ${{ matrix.module }}.tar.gz output/${{ matrix.module }}   
           
       - name: Upload binary to GitHub release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: out/*.tar.gz  # Adjust path as needed
+          artifacts: output/*.tar.gz  # Adjust path as needed
           tag: build-${{ github.sha }}  # Corrected input name
           name: Cython Build ${{ github.sha }} for ${{ matrix.os }}-${{ matrix.arch }}  # Corrected input name
           token: ${{ secrets.GITHUB_TOKEN }}
