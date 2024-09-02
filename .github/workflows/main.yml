@@ -35,11 +35,8 @@ jobs:
         run: |
           ls -R out/
           
-      - name: Upload binary to GitHub release
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        run: |
-          echo "Creating a new release..."
-          curl -s -X POST -H "Authorization: token $GITHUB_TOKEN" \
-          -d '{"tag_name": "'"${GITHUB_SHA}"'", "target_commitish": "main", "name": "Cython Build '"${GITHUB_SHA}"' for '"${{ matrix.os }}-$(matrix.arch)"'", "body": "Automated release for Cython build.", "draft": false, "prerelease": false}' \
-          https://api.github.com/repos/${{ github.repository }}/releases
+      - name: Update release
+        uses: johnwbyrd/update-release@v1
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          files: out/*.so
