@@ -31,7 +31,9 @@ jobs:
         if: matrix.os == 'ubuntu-latest'
         run: |
           python3 setup.py my_project out
-
+      - name: List output directory contents
+        run: |
+          ls -R out/
       - name: Upload binary to GitHub release
         if: github.ref == 'refs/heads/main'
         uses: ncipollo/release-action@v1
