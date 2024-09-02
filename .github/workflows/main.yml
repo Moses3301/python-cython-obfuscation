@@ -10,8 +10,9 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-latest]
+        os: [ubuntu:jammy]
         arch: [amd64]
+        module: ['my_project']
 
     steps:
       - name: Checkout code
@@ -28,17 +29,19 @@ jobs:
           pip install setuptools wheel cython
 
       - name: Compile with Cython on Linux
-        if: matrix.os == 'ubuntu-latest'
+        if: matrix.os == 'ubuntu:jammy'
         run: |
-          python3 setup.py my_project out
-      - name: List output directory contents
+          mkdir out
+          python3 setup.py ${{ matrix.module }} out/${{ matrix.module }}
+          
+      - name: Compress the folder
         run: |
-          ls -R out/
+          tar -czf ${{ matrix.module }}.tar.gz out/${{ matrix.module }}   
           
       - name: Upload binary to GitHub release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: out/*.so  # Adjust path as needed
+          artifacts: out/*.tar.gz  # Adjust path as needed
           tag: build-${{ github.sha }}  # Corrected input name
           name: Cython Build ${{ github.sha }} for ${{ matrix.os }}-${{ matrix.arch }}  # Corrected input name
           token: ${{ secrets.GITHUB_TOKEN }}
