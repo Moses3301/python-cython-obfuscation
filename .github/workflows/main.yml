@@ -34,15 +34,11 @@ jobs:
           mkdir output
           python3 setup.py ${{ matrix.module }} output/${{ matrix.module }}
           
-      - name: List output directory contents
-        run: |
-          ls -R output/${{ matrix.module }}
-          echo "--------------------------------"
-          ls -R output/
-          
       - name: Compress the folder
         run: |
-          tar -czf ${{ matrix.module }}.tar.gz output/${{ matrix.module }}   
+          name = ${{ matrix.module }}-${{ matrix.os }}-${{ matrix.arch }}
+          cd output/${{ matrix.module }}
+          tar -czf ../../$name.tar.gz *.so
           
       - name: Upload binary to GitHub release
         uses: ncipollo/release-action@v1
