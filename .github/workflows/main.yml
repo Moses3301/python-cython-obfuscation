@@ -10,7 +10,7 @@ jobs:
     runs-on: ${{ matrix.os }}
     strategy:
       matrix:
-        os: [ubuntu-jammy]
+        os: [ubuntu-22.04]
         arch: [amd64]
         module: ['my_project']
 
@@ -29,7 +29,7 @@ jobs:
           pip install setuptools wheel cython
 
       - name: Compile with Cython on Linux
-        if: matrix.os == 'ubuntu-jammy'
+        if: matrix.os == 'ubuntu-22.04'
         run: |
           mkdir out
           python3 setup.py ${{ matrix.module }} out/${{ matrix.module }}
