@@ -14,6 +14,9 @@ jobs:
         arch: [amd64]
 
     steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
@@ -27,7 +30,6 @@ jobs:
       - name: Compile with Cython on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
-          cd src
           python3 setup.py my_project out
 
       - name: Upload binary to GitHub release
