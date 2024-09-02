@@ -36,7 +36,7 @@ jobs:
           
       - name: Compress the folder
         run: |
-          name = ${{ matrix.module }}-${{ matrix.os }}-${{ matrix.arch }}
+          name=${{ matrix.module }}-${{ matrix.os }}-${{ matrix.arch }}
           cd output/${{ matrix.module }}
           tar -czf ../../$name.tar.gz *.so
           
