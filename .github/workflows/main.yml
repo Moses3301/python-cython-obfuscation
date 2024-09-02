@@ -47,7 +47,7 @@ jobs:
       - name: Upload binary to GitHub release
         uses: ncipollo/release-action@v1
         with:
-          artifacts: output/*  # Adjust path as needed
+          artifacts: *.tar.gz  # Adjust path as needed
           tag: build-${{ github.sha }}  # Corrected input name
           name: Cython Build ${{ github.sha }} for ${{ matrix.os }}-${{ matrix.arch }}  # Corrected input name
           token: ${{ secrets.GITHUB_TOKEN }}
