@@ -35,8 +35,10 @@ jobs:
         run: |
           ls -R out/
           
-      - name: Update release
-        uses: johnwbyrd/update-release@v1.0.0
+      - name: Upload binary to GitHub release
+        uses: ncipollo/release-action@v1
         with:
+          artifacts: out/*.so  # Path to the compiled binary files
+          tag_name: ${{ github.sha }}
+          release_name: Cython Build ${{ github.sha }} for ${{ matrix.os }}-${{ matrix.arch }}
           token: ${{ secrets.GITHUB_TOKEN }}
-          files: out/
