@@ -27,6 +27,7 @@ jobs:
       - name: Compile with Cython on Linux
         if: matrix.os == 'ubuntu-latest'
         run: |
+          cd src
           python3 setup.py my_project out
 
       - name: Upload binary to GitHub release
