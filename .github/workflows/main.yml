@@ -34,6 +34,12 @@ jobs:
           mkdir output
           python3 setup.py ${{ matrix.module }} output/${{ matrix.module }}
           
+      - name: List output directory contents
+        run: |
+          ls -R output/${{ matrix.module }}
+          echo "--------------------------------"
+          ls -R output/
+          
       - name: Compress the folder
         run: |
           tar -czf ${{ matrix.module }}.tar.gz output/${{ matrix.module }}   
