@@ -39,6 +39,6 @@ jobs:
         uses: ncipollo/release-action@v1
         with:
           artifacts: out/*.so  # Adjust path as needed
-          tag: ${{ github.sha }}  # Corrected input name
+          tag: build-${{ github.sha }}  # Corrected input name
           name: Cython Build ${{ github.sha }} for ${{ matrix.os }}-${{ matrix.arch }}  # Corrected input name
           token: ${{ secrets.GITHUB_TOKEN }}
