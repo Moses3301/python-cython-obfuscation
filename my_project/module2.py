@@ -1,4 +1,7 @@
+lolo = 5
+import os
 def multiply(a, b):
+    os.path('.')
     return a * b
 
 def divide(a, b):

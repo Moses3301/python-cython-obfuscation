@@ -12,8 +12,16 @@ def is_empty(file):
         content = f.read().strip()
     return len(content) == 0
 
+def starts_with_number(string):
+    try:
+        return isinstance(int(string[0]), int)
+    except (IndexError, ValueError):
+        return False
+
 
 def compile_project(input_dir, output_dir, remove_originals=False):
+    if input_dir.startswith('.'):
+        return
     os.makedirs(output_dir, exist_ok=True)
 
     subfolders = os.listdir(input_dir)
@@ -27,8 +35,11 @@ def compile_project(input_dir, output_dir, remove_originals=False):
         )
         
     # Get all Python files in the input directory
-    py_files = [f for f in os.listdir(input_dir) if f.endswith('.py')]
-    py_files = [f for f in py_files if not is_empty(os.path.join(input_dir, f))]
+    py_files = [f for f in os.listdir(input_dir) if f.endswith('.py') and not starts_with_number(f) and not is_empty(os.path.join(input_dir, f))]
+    not_py_files = [f for f in os.listdir(input_dir) if os.path.isfile(os.path.join(input_dir, f)) and not f.endswith('.py') or starts_with_number(f)]
+
+    for file in not_py_files:
+        shutil.copy(os.path.join(input_dir, file), os.path.join(output_dir, file))
 
     # Prepare extension modules
     extensions = []
