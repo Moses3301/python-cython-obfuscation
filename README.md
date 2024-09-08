@@ -45,7 +45,7 @@ python setup.py input_directory output_directory [--remove-originals]
 
 
 ## Fixes and Improvements 
-[ ] Resolved issues with module names that begin with non-letter characters
-[ ] Integrated obfuscation as a core part of the process.
-[ ] Enhanced the obfuscation script to support multi-file projects, enabling better handling of larger codebases.
+- [ ] Resolved issues with module names that begin with non-letter characters
+- [ ] Integrated obfuscation as a core part of the process.
+- [ ] Enhanced the obfuscation script to support multi-file projects, enabling better handling of larger codebases.
 
