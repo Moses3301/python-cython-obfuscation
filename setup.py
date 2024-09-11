@@ -36,7 +36,7 @@ def compile_project(input_dir, output_dir, remove_originals=False):
         
     # Get all Python files in the input directory
     py_files = [f for f in os.listdir(input_dir) if f.endswith('.py') and not starts_with_number(f) and not is_empty(os.path.join(input_dir, f))]
-    not_py_files = [f for f in os.listdir(input_dir) if f not in py_files]
+    not_py_files = [f for f in os.listdir(input_dir) if f not in py_files and os.path.isfile(os.path.join(input_dir, f))]
 
     for file in not_py_files:
         shutil.copy(os.path.join(input_dir, file), os.path.join(output_dir, file))
